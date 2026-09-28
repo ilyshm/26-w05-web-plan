@@ -28,7 +28,17 @@ menuToggle?.addEventListener('click', () => {
 });
 
 navLinks.forEach((link) => {
-  link.addEventListener('click', () => closeMenu());
+  link.addEventListener('click', (event) => {
+    const targetSelector = link.getAttribute('href');
+    const targetSection = targetSelector ? document.querySelector(targetSelector) : null;
+
+    if (!targetSection) return;
+
+    event.preventDefault();
+    closeMenu();
+    window.history.pushState(null, '', targetSelector);
+    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 });
 
 document.addEventListener('click', (event) => {
